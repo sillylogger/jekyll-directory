@@ -54,7 +54,11 @@ module Jekyll
       context.registers[:directory] ||= Hash.new(0)
 
       source_dir = context.registers[:site].source
-      directory_files = File.join(source_dir, @path, "*")
+      directory_files = File.expand_path(File.join(source_dir, @path, "*"))
+      
+      if !directory_files.index(source_dir)
+        raise ArgumentError.new "Lised directory '#{source_dir}' cannot be out of jekyll root"
+      end
 
       files = Dir.glob(directory_files).reject{|f| f =~ @exclude }
       files.sort! {|x,y| @rev ? x <=> y : y <=> x }

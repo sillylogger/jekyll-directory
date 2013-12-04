@@ -79,7 +79,7 @@ module Jekyll
           else
             date = File.ctime(filename)
             ext = basename[/\.[a-z]+$/, 0]
-            slug = basename.sub(ext, '')
+            slug = ext ? basename.sub(ext, '') : basename
           end
 
           context['file'] = {

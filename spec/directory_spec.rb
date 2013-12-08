@@ -13,7 +13,7 @@ describe 'DirectoryTag' do
 
   let(:site)            { Jekyll::Site.new(configuration) }
 
-  let(:configuration)   { Jekyll::DEFAULTS.deep_merge(
+  let(:configuration)   { Jekyll::Configuration::DEFAULTS.deep_merge(
     'source' => source_dir,
     'plugins' => plugins_dir,
     'markdown' => 'rdiscount' # marku has trouble with img titles
@@ -63,6 +63,31 @@ post
       it "should be sorted by date" do
         doc.css('li').map(&:text).should == %w(2008-08-08 2009-09-09)
       end
+    end
+  end
+
+  describe "directory with nested dirs" do
+    let(:content) { %q* - {{ file.name}} * }
+
+    before do
+      FileUtils.mkdir_p 'images/icons'
+      FileUtils.mkdir_p 'images/other'
+      FileUtils.mkdir_p 'images/pictures'
+    end
+
+    it "should show items without extensions" do
+      doc.css('li').map(&:text).should == %w(icons other pictures)
+    end
+
+  end
+
+  describe "directory check" do
+    let(:parameters) { "path: ../ " }
+    let(:content) { %q* - {{ file.name}} * }
+
+    it "should throw an expetion when accessing to dir out of project root" do
+      target_dir = File.expand_path File.join(source_dir, "../")
+      doc.css('p').map(&:text)[0].should == "Liquid error: Listed directory '#{target_dir}' cannot be out of jekyll root"
     end
   end
 

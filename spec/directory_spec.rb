@@ -77,7 +77,7 @@ post
     end
 
     it "should show items without extensions" do
-      doc.css('li').map(&:text).should == %w(icons other pictures)
+      expect(doc.css('li').map(&:text)).to eq(%w(icons other pictures))
     end
 
   end
@@ -88,7 +88,7 @@ post
 
     it "should throw an expetion when accessing to dir out of project root" do
       target_dir = File.expand_path File.join(source_dir, "../")
-      doc.css('p').map(&:text)[0].should == "Liquid error: Listed directory '#{target_dir}' cannot be out of jekyll root"
+      expect(doc.css('p').map(&:text)).to include("Liquid error: Listed directory '#{target_dir}' cannot be out of jekyll root")
     end
   end
 

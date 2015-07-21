@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/deivid-rodriguez/byebug.git
+  revision: d4af9c655fe6eba84b9f122e0dde21afb2a10c2c
+  specs:
+    byebug (5.0.0)
+
+GIT
   remote: git://github.com/mojombo/jekyll.git
   revision: d2e948600f813722d1732e6659332926dc6405fd
   specs:
@@ -15,7 +21,7 @@ GIT
       toml (~> 0.1.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     RedCloth (4.2.9)
     blankslate (2.1.2.4)
@@ -79,10 +85,13 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
-  debugger
+  byebug!
   jekyll!
   kramdown
   nokogiri
   rdiscount
   redcarpet
   rspec
+
+BUNDLED WITH
+   1.10.4

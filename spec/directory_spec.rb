@@ -13,7 +13,8 @@ describe 'DirectoryTag' do
 
   let(:site)            { Jekyll::Site.new(configuration) }
 
-  let(:configuration)   { Jekyll::Configuration::DEFAULTS.deep_merge(
+  let(:configuration)   {
+    Jekyll::Configuration::DEFAULTS.merge(
     'source' => source_dir,
     'plugins' => plugins_dir,
     'markdown' => 'rdiscount' # marku has trouble with img titles
@@ -46,14 +47,14 @@ post
     let(:dates)   { %w(2008-08-08 2009-09-09 2010-10-10) }
 
     it "should be sorted by date" do
-      doc.css('li').map(&:text).should == dates
+      expect(doc.css('li').map(&:text)).to eq(dates)
     end
 
     context "with reverse: true" do
       let(:parameters) { "path: images reverse: true" }
 
       it "should be sorted by date" do
-        doc.css('li').map(&:text).should == dates.reverse
+        expect(doc.css('li').map(&:text)).to eq(dates.reverse)
       end
     end
 
@@ -61,7 +62,7 @@ post
       let(:parameters) { "path: images exclude: c.ar" }
 
       it "should be sorted by date" do
-        doc.css('li').map(&:text).should == %w(2008-08-08 2009-09-09)
+        expect(doc.css('li').map(&:text)).to eq(%w(2008-08-08 2009-09-09))
       end
     end
   end
@@ -98,15 +99,14 @@ post
       FileUtils.touch   'images/2008-08-08-alpha-team.jpg'
     end
 
-
     it "should have the alt, src, and title" do
       imgs = doc.css('img')
-      imgs.should have(1).image
+      expect(imgs.size).to eq(1)
 
       img = imgs.first
-      img[:alt].should == "alpha-team"
-      img[:src].should == "/images/2008-08-08-alpha-team.jpg"
-      img[:title].should == "Taken on 08 August 2008"
+      expect(img[:alt]).to eq("alpha-team")
+      expect(img[:src]).to eq("/images/2008-08-08-alpha-team.jpg")
+      expect(img[:title]).to eq("Taken on 08 August 2008")
     end
   end
 

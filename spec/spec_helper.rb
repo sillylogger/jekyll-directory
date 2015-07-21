@@ -10,6 +10,7 @@ require 'rdiscount'
 require 'kramdown'
 require 'redcarpet'
 
+require 'byebug'
 require 'nokogiri'
 
 root = File.expand_path File.dirname(__FILE__)

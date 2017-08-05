@@ -23,8 +23,11 @@ RSpec.configure do |config|
   config.include Jekyll
   config.include JekyllConfigDirs
 
-  # def clear_dest
-  #   FileUtils.rm_rf(dest_dir)
-  # end
+  # These two settings work together to allow you to limit a spec run
+  # to individual examples or groups you care about by tagging them with
+  # `:focus` metadata. When nothing is tagged with `:focus`, all examples
+  # get run.
+  config.filter_run :focus
+  config.run_all_when_everything_filtered = true
 
 end

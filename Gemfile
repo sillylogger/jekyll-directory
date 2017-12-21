@@ -9,9 +9,7 @@ gem 'redcarpet'
 
 group :development,
       :test do
-
   gem 'byebug',       github: 'deivid-rodriguez/byebug'
   gem 'rspec'
   gem 'nokogiri'
-
 end

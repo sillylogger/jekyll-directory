@@ -63,7 +63,7 @@ post
     context "with exclude: regex" do
       let(:parameters) { "path: images exclude: c.ar" }
 
-      it "should be sorted by date" do
+      it "ignores the matching files" do
         expect(doc.css('li').map(&:text)).to eq(%w(2008-08-08 2009-09-09))
       end
     end

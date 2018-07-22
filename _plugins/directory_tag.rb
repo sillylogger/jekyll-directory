@@ -1,5 +1,5 @@
 # Title: Dynamic directories for Jekyll
-# Author: Tommy Sullivan http://superawesometommy.com, Robert Park http://exolucere.ca
+# Author: Tommy Sullivan http://superawesometommy.com, Robert Park http://exolucere.ca, Adam Candy http://candylab.org
 # Description: The directory tag lets you iterate over files at a particular path. If files conform to the standard Jekyll format, YYYY-MM-DD-file-title, then those attributes will be populated on the yielded file object. The `forloop` object maintains [its usual context](http://wiki.shopify.com/UsingLiquid#For_loops).
 #
 # Syntax:

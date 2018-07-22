@@ -16,7 +16,7 @@
 #
 # - `reverse` - Defaults to 'false', ordering files the same way `ls` does: 0-9A-Za-z.
 # - `exclude` - Defaults to '.html$', a Regexp of files to skip.
-# - `bydate'  - Sorts by date and functions with 'reverse', to reverse the order.
+# - `bydate'  - Sorts by date. Adding also 'reverse' switches the order.
 #
 # File Attributes:
 #

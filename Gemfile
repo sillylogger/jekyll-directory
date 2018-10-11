@@ -10,6 +10,7 @@ gem 'redcarpet'
 group :development,
       :test do
   gem 'byebug',       git: 'https://github.com/deivid-rodriguez/byebug.git'
+  gem 'pry'
   gem 'rspec'
   gem 'nokogiri'
 end

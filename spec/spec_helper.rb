@@ -6,12 +6,12 @@ require 'jekyll'
 STDERR.reopen(test(?e, '/dev/null') ? '/dev/null' : 'NUL:')
 
 require 'RedCloth'
-require 'rdiscount'
 require 'kramdown'
 require 'redcarpet'
 
 require 'byebug'
 require 'nokogiri'
+require 'pry'
 
 root = File.expand_path File.dirname(__FILE__)
 require File.join(root, 'support', 'jekyll_config_dirs')

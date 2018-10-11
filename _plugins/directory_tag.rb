@@ -70,8 +70,8 @@ module Jekyll
         files.each_with_index do |filename, index|
           basename = File.basename(filename)
 
-          filepath  = [path, basename] - ['.']
-          url  = '/' + filepath.join('/')
+          url = filename.dup
+          url.slice!(source_dir)
 
           m, cats, date, slug, ext = *basename.match(STANDARD_POST_FILENAME_MATCHER)
 
@@ -120,4 +120,3 @@ module Jekyll
 end
 
 Liquid::Template.register_tag('directory', Jekyll::DirectoryTag)
-

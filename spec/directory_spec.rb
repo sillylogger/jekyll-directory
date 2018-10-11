@@ -81,6 +81,24 @@ post
     end
   end
 
+  describe "directory with nested dirs and files" do
+    let(:parameters) { "path: images/**/*" }
+    let(:content) { %q* - {{ file.url }} * }
+
+    before do
+      FileUtils.mkdir_p 'images/icons'
+      FileUtils.touch   'images/icons/1.jpg'
+      FileUtils.mkdir_p 'images/other'
+      FileUtils.touch   'images/other/2.jpg'
+      FileUtils.mkdir_p 'images/pictures'
+      FileUtils.touch   'images/pictures/3.jpg'
+    end
+
+    it "should show items without extensions" do
+      expect(doc.css('li').map(&:text).map(&:strip)).to eq(%w(/images/icons/1.jpg /images/other/2.jpg /images/pictures/3.jpg))
+    end
+  end
+
   describe "path" do
     before do
       FileUtils.touch   'images/2008-08-08-alpha-team.jpg'

@@ -1,10 +1,10 @@
 # Title: Dynamic directories for Jekyll
-# Author: Tommy Sullivan http://superawesometommy.com, Robert Park http://exolucere.ca
+# Author: Tommy Sullivan http://superawesometommy.com, Robert Park http://exolucere.ca, Adam Candy http://candylab.org
 # Description: The directory tag lets you iterate over files at a particular path. If files conform to the standard Jekyll format, YYYY-MM-DD-file-title, then those attributes will be populated on the yielded file object. The `forloop` object maintains [its usual context](http://wiki.shopify.com/UsingLiquid#For_loops).
 #
 # Syntax:
 #
-#   {% directory path: path/from/source [reverse] [exclude] %}
+#   {% directory path: path/from/source [reverse] [exclude] [date] %}
 #     {{ file.url }}
 #     {{ file.name }}
 #     {{ file.date }}
@@ -16,6 +16,7 @@
 #
 # - `reverse` - Defaults to 'false', ordering files the same way `ls` does: 0-9A-Za-z.
 # - `exclude` - Defaults to '.html$', a Regexp of files to skip.
+# - `bydate'  - Sorts by date. Adding also 'reverse' switches the order.
 #
 # File Attributes:
 #
@@ -44,6 +45,17 @@ module Jekyll
 
       @exclude = Regexp.new(@attributes['exclude'] || '.html$', Regexp::EXTENDED | Regexp::IGNORECASE)
       @reverse = @attributes['reverse'].nil?
+      @bydate  = @attributes['bydate'].nil?
+    end
+
+    def getstamp(filename)
+      basename = File.basename(filename)
+      m, cats, date, slug, ext = *basename.match(STANDARD_POST_FILENAME_MATCHER)
+      if m
+        Time.parse(date)
+      else
+        File.ctime(filename)
+      end
     end
 
     def render(context)
@@ -61,8 +73,13 @@ module Jekyll
 
       directory_files = File.join(listed_dir, "*")
       files = Dir.glob(directory_files).reject{|f| f =~ @exclude }
-      files.sort! {|x,y| @reverse ? x <=> y : y <=> x }
 
+      if @bydate
+        files.sort! {|x,y| @reverse ? x <=> y : y <=> x }
+      else
+        files.sort! {|x,y| @reverse ? getstamp(x) <=> getstamp(y) : getstamp(y) <=> getstamp(x) }
+      end
+      
       length = files.length
       result = []
 

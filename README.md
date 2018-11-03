@@ -28,6 +28,7 @@ curl -L -O https://github.com/sillylogger/jekyll-directory/raw/master/_plugins/d
 
 - `reverse` - Defaults to 'false', ordering files the same way `ls` does: 0-9A-Za-z.
 - `exclude` - Defaults to '.html$', a Regexp of files to skip.
+- `bydate`  - Sorts by date. Adding also 'reverse' switches the order.
 
 ### file attributes:
 

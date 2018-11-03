@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'jekyll',         github: 'mojombo/jekyll'
+gem 'jekyll',         git: 'https://github.com/jekyll/jekyll.git'
 
 gem 'RedCloth'
 gem 'rdiscount'
@@ -9,7 +9,8 @@ gem 'redcarpet'
 
 group :development,
       :test do
-  gem 'byebug',       github: 'deivid-rodriguez/byebug'
+  gem 'byebug',       git: 'https://github.com/deivid-rodriguez/byebug.git'
+  gem 'pry'
   gem 'rspec'
   gem 'nokogiri'
 end

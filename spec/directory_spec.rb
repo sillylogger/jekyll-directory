@@ -18,7 +18,7 @@ describe 'DirectoryTag' do
     Jekyll.configuration(
       'source' => source_dir,
       'plugins_dir' => plugins_dir,
-      'markdown' => 'rdiscount' # marku has trouble with img titles
+      'markdown' => 'kramdown' # marku has trouble with img titles
     )
   }
 
@@ -49,14 +49,14 @@ post
     let(:dates)   { %w(2008-08-08 2009-09-09 2010-10-10) }
 
     it "should be sorted by date" do
-      expect(doc.css('li').map(&:text)).to eq(dates)
+      expect(doc.css('li').map(&:text).map(&:strip)).to eq(dates)
     end
 
     context "with reverse: true" do
       let(:parameters) { "path: images reverse: true" }
 
       it "should be sorted by date" do
-        expect(doc.css('li').map(&:text)).to eq(dates.reverse)
+        expect(doc.css('li').map(&:text).map(&:strip)).to eq(dates.reverse)
       end
     end
 
@@ -64,7 +64,7 @@ post
       let(:parameters) { "path: images exclude: c.ar" }
 
       it "ignores the matching files" do
-        expect(doc.css('li').map(&:text)).to eq(%w(2008-08-08 2009-09-09))
+        expect(doc.css('li').map(&:text).map(&:strip)).to eq(%w(2008-08-08 2009-09-09))
       end
     end
   end
@@ -77,7 +77,25 @@ post
     end
 
     it "should show items without extensions" do
-      expect(doc.css('li').map(&:text)).to eq(%w(icons other pictures))
+      expect(doc.css('li').map(&:text).map(&:strip)).to eq(%w(icons other pictures))
+    end
+  end
+
+  describe "directory with nested dirs and files" do
+    let(:parameters) { "path: images/**/*" }
+    let(:content) { %q* - {{ file.url }} * }
+
+    before do
+      FileUtils.mkdir_p 'images/icons'
+      FileUtils.touch   'images/icons/1.jpg'
+      FileUtils.mkdir_p 'images/other'
+      FileUtils.touch   'images/other/2.jpg'
+      FileUtils.mkdir_p 'images/pictures'
+      FileUtils.touch   'images/pictures/3.jpg'
+    end
+
+    it "should show items without extensions" do
+      expect(doc.css('li').map(&:text).map(&:strip)).to eq(%w(/images/icons/1.jpg /images/other/2.jpg /images/pictures/3.jpg))
     end
   end
 
@@ -102,7 +120,7 @@ post
 post
 
       it "should evaluate the variable" do
-        expect(doc.css('li').map(&:text)).to eq(dates)
+        expect(doc.css('li').map(&:text).map(&:strip)).to eq(dates)
       end
 
     end
@@ -112,7 +130,7 @@ post
 
       it "should throw an exception" do
         target_dir = File.expand_path File.join(source_dir, "../")
-        expect(doc.css('p').map(&:text)).to include("Liquid error: Listed directory '#{target_dir}' cannot be out of jekyll root")
+        expect(doc.css('p').map(&:text)).to include("Liquid error: Listed directory ‘#{target_dir}’ cannot be out of jekyll root")
       end
     end
   end
@@ -136,4 +154,3 @@ post
   end
 
 end
-
